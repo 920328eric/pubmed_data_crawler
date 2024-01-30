@@ -6,7 +6,7 @@ current_directory = os.getcwd()
 input_data_directory = os.path.join(current_directory, 'input_data')
 
 # 指定想讀取的txt檔名
-target_file = "joint_pain.txt"
+target_file = "rapm-2019-101243.pdf"
 
 for root, dirs, files in os.walk(input_data_directory):
     for file in files:
