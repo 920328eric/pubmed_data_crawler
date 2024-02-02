@@ -4,9 +4,9 @@ from pdfminer.layout import LAParams
 from pdfminer.converter import PDFPageAggregator
 from pdfminer.pdfinterp import PDFTextExtractionNotAllowed
 
-def parse():
+def parse(pdf_path):
         # rb以二進位讀取模式開啟本機pdf文件
-        fn = open('Firebase 圖形畫法.pdf','rb')
+        fn = open(pdf_path,'rb')
         # 建立一個pdf文檔分析器
         parser = PDFParser(fn)
         # 建立一個PDF文檔
@@ -47,4 +47,4 @@ def parse():
             print('轉換成功！')
 
 if __name__ == '__main__':
-	parse()
+	parse('Firebase 圖形畫法.pdf')
