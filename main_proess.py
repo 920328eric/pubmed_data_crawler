@@ -164,7 +164,7 @@ def search_file_pmcid(target_file):
                                 switch = 'false'
 
                                 each_file_pmcid = line.split()[-1]
-                                if name == None:
+                                if len(name) <= 1:
                                     each_file_name = each_file_pmcid
                                 else:
                                     each_file_name = name
