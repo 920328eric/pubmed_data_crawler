@@ -14,7 +14,6 @@ each_file_pmcid = ''
 txt_save_path = ''
 name = ''
 current_line = 0
-pdf_save_path = '/Users/chenchongyu/desktop/output_data/pdf'
 origin_pdf_path = ''
 current_crawler = 1
 switch = 'false'
@@ -22,6 +21,8 @@ switch = 'false'
 current_directory = os.getcwd()
 # input_data 的完整路徑
 input_data_directory = os.path.join(current_directory, 'input_data')
+
+pdf_save_path = os.path.join(current_directory, 'output_data/pdf') 
 
 
 # 以檔案紀錄目前爬取到的檔案行數
@@ -133,6 +134,7 @@ def search_file_pmcid(target_file):
     global origin_pdf_path
     global pdf_save_path
     global switch
+    global current_directory
     
     for root, dirs, files in os.walk(input_data_directory):
         for file in files:
@@ -172,8 +174,10 @@ def search_file_pmcid(target_file):
                                 print('檔名 = ' + each_file_name)
                                 print('PMCID = ' + each_file_pmcid  + '\n')
 
-                                origin_pdf_path = f"/Users/chenchongyu/desktop/output_data/pdf/{each_file_name}.pdf"
-                                txt_save_path = f"/Users/chenchongyu/desktop/output_data/txt/{each_file_name}.txt"
+                                
+
+                                origin_pdf_path = os.path.join(current_directory, f'output_data/pdf/{each_file_name}.pdf')
+                                txt_save_path = os.path.join(current_directory, f'output_data/txt/{each_file_name}.txt') 
                                 pdf_name = each_file_name
 
                                 pdf_url = find_url("https://www.ncbi.nlm.nih.gov/pmc/articles/" + each_file_pmcid + '/')
