@@ -1,5 +1,5 @@
 
-# 自動化爬取Pubmed上完整文獻，輸出txt和pdf檔
+# 自動化爬取Pubmed上完整文獻，輸出pdf和txt檔
 # 需先勾選Free full text，並下載 All results (Abstract text 格式)，並把他們放到程式碼 input_data 裡
 
 
