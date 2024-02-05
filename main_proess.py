@@ -147,6 +147,11 @@ def search_file_pmcid(target_file):
                     #for i in range(150):
                     for line in f:
                         if not line:
+
+                            # 將數目重整
+                            with open(file_current_crawler_path, 'w') as f:
+                                f.write(str(1))
+
                             print('資料整理完成!')
                             break
                         if line.startswith(str(current_crawler) + '. '):
