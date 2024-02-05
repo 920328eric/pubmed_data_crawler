@@ -4,9 +4,9 @@
 
 
 ## 使用說明
-1. 在 target_file = "joint_pain.txt" ， 指定想讀取剛剛下載的Abstract text 格式的txt檔
+1. main_process 是主要執行的地方
 
-2. main_process 是主要執行的地方
+2. 在 target_file = "joint_pain.txt" ， 指定想讀取剛剛下載的Abstract text 格式的txt檔
 
 3. 執行之後 control c 暫停，下次可從上次斷掉的地方繼續執行
 
