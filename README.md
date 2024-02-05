@@ -4,11 +4,13 @@
 
 
 ## 使用說明
-1.在 target_file = "joint_pain.txt" ， 指定想讀取的txt檔
+1. 在 target_file = "joint_pain.txt" ， 指定想讀取的txt檔
 
-2.執行之後 control c 暫停，下次可從上次斷掉的地方繼續執行
+2. main_process 是主要執行的地方
 
-3.side_code是各部分邏輯，可自行使用
+3. 執行之後 control c 暫停，下次可從上次斷掉的地方繼續執行
+
+4. side_code 是各部分邏輯，可自行使用
 
 ## 安裝
 
