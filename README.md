@@ -4,7 +4,7 @@
 
 
 ## 使用說明
-1. 在 target_file = "joint_pain.txt" ， 指定想讀取的txt檔
+1. 在 target_file = "joint_pain.txt" ， 指定想讀取剛剛下載的Abstract text 格式的txt檔
 
 2. main_process 是主要執行的地方
 
