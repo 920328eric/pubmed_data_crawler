@@ -7,6 +7,8 @@ from pdfminer.pdfinterp import PDFResourceManager, PDFPageInterpreter
 from pdfminer.layout import LAParams
 from pdfminer.converter import PDFPageAggregator
 from pdfminer.pdfinterp import PDFTextExtractionNotAllowed
+import time
+import random
 
 
 each_file_name = ''
@@ -207,10 +209,18 @@ if __name__ == '__main__':  #主程式，在該文件被直接執行時才會被
 
     target_file = "joint_discomfort.txt" # 指定想讀取的txt檔
     
-    try:
-        search_file_pmcid(target_file)
+    while True:
+        try:
+            search_file_pmcid(target_file)
+        except Exception as e:
+            print("程式出現異常:", e)
 
-    except KeyboardInterrupt:
-        current_crawler -= 1
-        print('\n')
-        print('當前讀到的資料為第', str(current_crawler - 1), '筆')
+            wait_time = random.randint(100, 600)
+            print("等待", wait_time, "秒...")
+            time.sleep(wait_time)
+
+            continue  # 繼續下一輪搜
+        except KeyboardInterrupt:
+            print('\n')
+            print('當前讀到的資料為第', str(current_crawler - 1), '筆')
+            break  # 終止程式運行
