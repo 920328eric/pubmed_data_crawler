@@ -221,6 +221,12 @@ if __name__ == '__main__':  #主程式，在該文件被直接執行時才會被
 
             continue  # 繼續下一輪搜
         except KeyboardInterrupt:
+
+            current_crawler -= 1
+            # 將新數目寫入
+            with open(file_current_crawler_path, 'w') as f:
+                f.write(str(current_crawler))
+
             print('\n')
-            print('當前讀到的資料為第', str(current_crawler - 1), '筆')
+            print('當前讀到的資料為第', str(current_crawler), '筆')
             break  # 終止程式運行
