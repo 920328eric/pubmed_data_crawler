@@ -1,6 +1,6 @@
 
-# 自動化爬取Pubmed上完整文獻，輸出pdf和txt檔
-需先到Pubmed搜尋引擎，搜尋想要爬取的文獻關鍵字，並勾選Free full text，最後下載 All results (Abstract text 格式)，把他們放到程式碼 input_data 裡
+# 自動化爬取 Pubmed 上完整文獻，輸出 pdf 和 txt 檔
+需先到 Pubmed 搜尋引擎，搜尋想要爬取的文獻關鍵字，並勾選 Free full text，最後下載 All results (Abstract text 格式)，把他們放到程式碼 input_data 裡
 
 
 ## 使用說明
@@ -21,7 +21,7 @@
 
 註：有些檔名會以PMCID代替，為了爬取資料的方便
 
-警告：使用此程式你的網路 IP 可能被鎖
+警告：使用此程式你的網路 IP 可能被鎖，無法再使用Pubmed
 
 ## 安裝
 
