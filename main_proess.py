@@ -2,13 +2,14 @@ import io
 import requests
 from bs4 import BeautifulSoup
 import os
-from pdfminer.pdfparser import PDFParser, PDFDocument
+from pdfminer.high_level import extract_text
 from pdfminer.pdfinterp import PDFResourceManager, PDFPageInterpreter
 from pdfminer.layout import LAParams
 from pdfminer.converter import PDFPageAggregator
-from pdfminer.pdfinterp import PDFTextExtractionNotAllowed
 import time
 import random
+from urllib.parse import urljoin
+import re
 
 
 each_file_name = ''
@@ -33,6 +34,11 @@ file_current_crawler_path = 'current_crawler.txt'
 with open(file_current_crawler_path, 'r') as f:
     current_crawler = int(f.read())
 
+
+def sanitize_filename(name):
+    # 移除非法字元
+    return re.sub(r'[\\/:*?"<>|]', '_', name.strip())   
+
 # pmcid 的網址
 def find_url(PMC_url):
     send_headers = {
@@ -49,13 +55,12 @@ def find_url(PMC_url):
         links = soup.find_all('a')
 
         for link in links:
-
-            href = link.get('href')
-        
-            if href.startswith('/pmc/articles/') and href.endswith('.pdf'):
-                return "https://www.ncbi.nlm.nih.gov" + href
-                # print("https://www.ncbi.nlm.nih.gov" + href)
-                # break
+            href = link['href']
+            # 簡單判斷是否是 PDF
+            if '.pdf' in href.lower():
+                # 將相對路徑補成完整網址
+                full_url = urljoin(PMC_url, href)
+                return full_url
     else:
         print("請求失敗，狀態碼：", response.status_code)
 
@@ -81,48 +86,15 @@ def download_pdf(save_path, pdf_name, pdf_url):
 
 # pdf 轉成 txt 檔
 def pdf_to_txt(pdf_path):
-        global txt_save_path
-        
-        # rb以二進位讀取模式開啟本機pdf文件
-        fn = open(pdf_path,'rb')
-        # 建立一個pdf文檔分析器
-        parser = PDFParser(fn)
-        # 建立一個PDF文檔
-        doc = PDFDocument()
-        # 連接分析器 與文檔對象
-        parser.set_document(doc)
-        doc.set_parser(parser)
+    global txt_save_path
+    try:
+        text = extract_text(pdf_path)
+        with open(txt_save_path, 'w', encoding='utf-8') as f:
+            f.write(text)
+        print(f'第 {current_crawler - 1} 筆資料轉換成功！\n')
+    except Exception as e:
+        print("PDF 轉換失敗：", e)
 
-	# 提供初始化密碼doc.initialize("lianxipython")
-    # 如果沒有密碼 就建立一個空的字串
-        doc.initialize("")
-    # 偵測文件是否提供txt轉換，不提供就忽略
-        if not doc.is_extractable:
-             raise PDFTextExtractionNotAllowed
-        else:
-    	# 建立PDf資源管理器
-            resource = PDFResourceManager()
-            # 建立一個PDF參數分析器
-            laparams = LAParams()
-            # 建立聚合器,用於讀取文件的對象
-            device = PDFPageAggregator(resource,laparams=laparams)
-            #建立解釋器，對文件編碼，解釋成Python能夠辨識的格式
-            interpreter = PDFPageInterpreter(resource,device)
-            # 循環遍歷列表，每次處理一頁的內容
-            # doc.get_pages() 取得page列表
-            for page in doc.get_pages():
-                # 利用解釋器的process_page()方法解析讀取單獨頁數
-                interpreter.process_page(page)
-                # 使用聚合器get_result()方法取得內容
-                layout = device.get_result()
-                # 這裡layout是一個LTPage物件,裡面存放著這個page解析出的各種對象
-                for out in layout:
-                    # 判斷是否含有get_text()方法，取得我們想要的文字
-                    if hasattr(out,"get_text"):
-                        #print(out.get_text())
-                        with open(txt_save_path,'a') as f:
-                            f.write(out.get_text()+'\n')
-            print( '第' + str(current_crawler - 1)  + '資料' + '轉換成功！ \n')
 
 
 # 搜尋檔名、並提取PMCID
@@ -187,7 +159,7 @@ def search_file_pmcid(target_file):
                                 txt_save_path = os.path.join(current_directory, f'output_data/txt/{each_file_name}.txt') 
                                 pdf_name = each_file_name
 
-                                pdf_url = find_url("https://www.ncbi.nlm.nih.gov/pmc/articles/" + each_file_pmcid + '/')
+                                pdf_url = find_url("https://pmc.ncbi.nlm.nih.gov/articles/" + each_file_pmcid + '/')
 
                                 if pdf_url:
                                     download_pdf(pdf_save_path,pdf_name,pdf_url)
@@ -197,7 +169,7 @@ def search_file_pmcid(target_file):
                                 
 
                         elif(current_line == 2):
-                            name = line
+                            name = sanitize_filename(line)
                             current_line +=1
             
                         else:
